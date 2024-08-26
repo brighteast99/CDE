@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block head %}
+<style>
+  #content {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  h1#title {
+    text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 240px;
+  }
+
+  input {
+    padding: 8px;
+    display: block;
+  }
+
+  button[type='submit'] {
+    padding: 8px;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div id="content">
+  <h1 id="title">Sign up</h1>
+  <form action="/signup" method="POST">
+    <input
+      type="text"
+      id="id"
+      name="username"
+      placeholder="ID"
+      value=""
+      required
+      autofocus
+    />
+    <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="PW"
+      value=""
+      required
+    />
+    <input
+      type="password"
+      id="password_confirm"
+      name="password_confirm"
+      placeholder="Password confirm"
+      value=""
+      required
+    />
+    <button type="submit">Sign up</button>
+  </form>
+  <a href="/">Log in</a>
+</div>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %} {% block head %}
+<style>
+  #content {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  #content > * {
+    margin: 4px 0;
+  }
+
+  nav#type-selector {
+    display: flex;
+  }
+
+  nav#type-selector > div {
+    width: 50%;
+    padding: 12px 0;
+    text-align: center;
+  }
+
+  nav#type-selector > div:not(.selected):hover {
+    background-color: #eee;
+  }
+
+  nav#type-selector > div.selected {
+    border-bottom: 3px solid lightskyblue;
+  }
+  nav#type-selector > div:not(.selected) {
+    border-bottom: 1px solid lightgray;
+  }
+
+  section > * {
+    margin: 8px 0;
+  }
+
+  a#connect {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    text-align: center;
+    background-color: buttonface;
+    border: 1px solid buttonborder;
+    border-style: outset;
+    width: 100%;
+    padding: 4px 0;
+  }
+</style>
+{% endblock %} {% block body %}
+<div id="content">
+  <header
+    style="display: flex; justify-content: space-between; align-items: baseline"
+  >
+    <h1>{{username}} 로 접속중</h1>
+    <a href="/check_pw?next=user_info">정보 수정</a>
+  </header>
+
+  <nav id="type-selector">
+    <div data-type="dev" class="selected">개발환경</div>
+    <div data-type="val">검증환경</div>
+  </nav>
+
+  <section>
+    <form action="/backup" method="POST">
+      <input type="text" name="type" value="dev" hidden />
+      <button style="width: 100%; padding: 6px 0; margin: 4px 0">
+        환경 백업
+      </button>
+    </form>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <input type="text" name="type" value="dev" hidden />
+      <label>파일 업로드: </label>
+      <input type="file" name="files" multiple required />
+      <button type="submit">업로드</button>
+    </form>
+
+    <a id="connect" href="/connect/dev">연결</a>
+  </section>
+</div>
+
+<script>
+  document.querySelectorAll('nav>div[data-type]').forEach(navItem =>
+    navItem.addEventListener('click', () => {
+      document.querySelectorAll('nav>div[data-type]').forEach(item => {
+        if (item === navItem) item.classList.add('selected')
+        else item.classList.remove('selected')
+      })
+      const type = navItem.dataset.type
+      document
+        .querySelectorAll('input[type="text"][name="type"]')
+        .forEach(input => (input.value = type))
+      document.querySelector(
+        'a#git-mute'
+      ).href = `/git_mute/${navItem.dataset.type}`
+      document.querySelector(
+        'a#connect'
+      ).href = `/connect/${navItem.dataset.type}`
+    })
+  )
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+venv
+.vscode
+
+*.pyc
+__pycache__
+*.egg-info
+
+*.env
+!*.template.env
+
+announcements
+logs/
+backups/
+
+*.tar
+*.pem

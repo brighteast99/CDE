@@ -1,0 +1,3 @@
+[submodule "package/logger"]
+	path = package/logger
+	url = https://github.com/brighteast99/logger-initializer.git

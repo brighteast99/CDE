@@ -1,0 +1,39 @@
+networks:
+  databases:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.26.0.0/24
+
+services:
+  governor:
+    image: python:3.11
+    ports:
+      - 443:443
+    networks:
+      databases:
+        ipv4_address: 172.26.0.2
+    environment:
+      TZ: "Asia/Seoul"
+    env_file:
+      - governor.env
+      - db.env
+    volumes:
+      - ./governor_module/:/module
+      - ./package/governor:/module/package/governor
+      - ./package/logger:/module/package/logger
+    working_dir: /module
+    entrypoint: ["/bin/bash","-c"]
+    command:
+      - |
+        source quick.sh
+        /bin/bash
+
+
+  cdedb:
+    image: mariadb:11.2.4
+    env_file:
+      - db.env
+    networks:
+      databases:
+        ipv4_address: 172.26.0.3

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block head %}
+<style>
+  #content {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  h1#hello {
+    text-align: center;
+  }
+
+  h2#title {
+    text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 240px;
+  }
+
+  form > input {
+    padding: 8px;
+    display: block;
+  }
+
+  button[type='submit'] {
+    padding: 8px;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div id="content">
+  <h1 id="hello">Hello, {{username}}</h1>
+  <h2 id="title">Change password</h2>
+  <form action="/update_pw" method="POST">
+    <input
+      type="password"
+      id="cur_password"
+      name="cur_password"
+      placeholder="Password"
+      value=""
+      required
+      autofocus
+    />
+    <input
+      type="password"
+      id="new_password"
+      name="new_password"
+      placeholder="New Password"
+      value=""
+      required
+    />
+    <input
+      type="password"
+      id="new_password_confirm"
+      name="new_password_confirm"
+      placeholder="Confirm new Password"
+      value=""
+      required
+    />
+    <button type="submit">Confirm</button>
+  </form>
+  <a href="javascript:history.back()">Go back</a>
+</div>
+{% endblock %}
